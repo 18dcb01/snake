@@ -44,22 +44,21 @@ int main(){
 			if (move(snake, getDirection(snake, cherryLoc), cherryLoc))
 			{
 				cherryLoc = newCherry(snake);
-				cout << snake.size() << "   " << time*1000/moveCount<<endl;
+				//cout << snake.size() << "   " << time*1000/moveCount<<endl;
 				time = 0;
 				moveCount = 0;
 
 			}
 			time += clock() - start;
 			moveCount++;
-			if(false)
-				draw(snake, cherryLoc, window);
+			draw(snake, cherryLoc, window);
 		}
 	}
 
 	return 0;
 }
 
-
+//base snake game
 bool move(vector<pair<int, int>> &snake, pair<int, int> move, pair<int, int> cherryLoc) {
 	snake.push_back(make_pair(snake.back().first + move.first, snake.back().second + move.second));
 	if (snake.back() == cherryLoc)
@@ -68,7 +67,7 @@ bool move(vector<pair<int, int>> &snake, pair<int, int> move, pair<int, int> che
 	return false;
 }
 
-
+//ai
 void initializePath(int path[WIDTH][HEIGHT]) {
 	int x = 0,y=0;
 	for (int i = 0; i < WIDTH*HEIGHT; i++)
@@ -98,14 +97,14 @@ void initializePath(int path[WIDTH][HEIGHT]) {
 
 }
 
-
+//ai, but useful
 int getVal(int x, int y, int path[WIDTH][HEIGHT]){
 	if (x >= 0 && x < WIDTH&&y >= 0 && y < HEIGHT)
 		return path[x][y];
 	return -2;
 }
 
-
+//ai
 pair<int, int> findDir(pair<int, int> pos, int nextPos) {
 	for (int i = 0; i < 4; i++){
 		pair<int,int> toCheck = make_pair(pos.first+dir[i].first, pos.second +dir[i].second);
@@ -116,7 +115,7 @@ pair<int, int> findDir(pair<int, int> pos, int nextPos) {
 	return make_pair(-1, -1);
 }
 
-
+//ai
 bool isBetween(int min, int mid, int max){
 	int i = 0;
 	if (min < mid)
@@ -128,12 +127,12 @@ bool isBetween(int min, int mid, int max){
 	return i == 2;
 }
 
-
+//ai
 bool absModOne(int x) {
 	return x == 1 || x == -1 || x == WIDTH * HEIGHT - 1 || -1 * x == WIDTH * HEIGHT - 1;
 }
 
-
+//ai
 bool swapLoop(int stX, int stY, int endX, int endY, int cherVal, int snakeEnd)
 {
 	int curX = stX;
@@ -202,7 +201,7 @@ bool swapLoop(int stX, int stY, int endX, int endY, int cherVal, int snakeEnd)
 	return changed;
 }
 
-
+//ai
 bool isIn(int x, int y, vector<pair<int, int>> &snake)
 {
 	for (int i = 0; i < snake.size(); i++)
@@ -211,7 +210,7 @@ bool isIn(int x, int y, vector<pair<int, int>> &snake)
 	return false;
 }
 
-
+//ai
 bool blocked(int x, int y, vector<pair<int, int>> &snake)
 {
 	if (x == 0 || isIn(x - 1, y, snake))
@@ -224,7 +223,7 @@ bool blocked(int x, int y, vector<pair<int, int>> &snake)
 }
 
 
-
+//function to change
 pair<int,int> getDirection(vector<pair<int, int>> snake, pair<int,int> cherry) {
 	/*clock_t time_end;
 	time_end = clock() + 50 * CLOCKS_PER_SEC / 1000;
@@ -274,7 +273,7 @@ pair<int,int> getDirection(vector<pair<int, int>> snake, pair<int,int> cherry) {
 	return findDir(snake.back(), (path[snake.back().first][snake.back().second] + 1)%(WIDTH*HEIGHT));
 }
 
-
+//base snake game
 bool isDead(vector<pair<int, int>> snake) {
 	if (snake.back().first < 0 || snake.back().first >= WIDTH || snake.back().second < 0 || snake.back().second >= HEIGHT)
 		return true;
@@ -284,7 +283,7 @@ bool isDead(vector<pair<int, int>> snake) {
 	return false;
 }
 
-
+//base snake game
 void draw(vector<pair<int, int>> snake, pair<int, int> cherry, sf::RenderWindow& window)
 {
 	window.clear();
@@ -297,7 +296,8 @@ void draw(vector<pair<int, int>> snake, pair<int, int> cherry, sf::RenderWindow&
 
 	sf::RectangleShape cher(sf::Vector2f(16, 16));
 	cher.setFillColor(sf::Color::Red);
-
+	
+	//this for loop is to display the ai
 	for (int i = 0; i < snake.size() - 1; i++){
 		if (snake.at(i).first == snake.at(i + 1).first){
 			vert.setPosition(snake.at(i).first * 20 + 2,min(snake.at(i).second,snake.at(i+1).second)*20+2);
@@ -335,7 +335,7 @@ void draw(vector<pair<int, int>> snake, pair<int, int> cherry, sf::RenderWindow&
 	window.display();
 }
 
-
+//base snake game
 pair<int, int> newCherry(vector<pair<int, int>> snake){
 	bool overlap = true;
 	pair<int, int> newPos;
